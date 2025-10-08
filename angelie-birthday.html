@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy Birthday, Angelie!</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffb6c1, #add8e6);
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    height: 100vh;
+  }
+  h1 {
+    color: #ff007f;
+    font-size: 3em;
+    margin-top: 120px;
+    animation: fadeInDown 2s ease;
+  }
+  p {
+    color: #333;
+    font-size: 1.4em;
+    margin: 20px;
+    animation: fadeInUp 3s ease;
+  }
+  .from {
+    margin-top: 50px;
+    font-weight: bold;
+    color: #6a0dad;
+    font-size: 1.2em;
+  }
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .balloon {
+    position: absolute;
+    bottom: -150px;
+    width: 80px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #ff69b4;
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-300px) rotate(15deg); }
+    100% { transform: translateY(0) rotate(-15deg); }
+  }
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <h1>🎉 Happy Birthday, Angelie S. Manlangit! 🎉</h1>
+  <p>You light up Grade 12 Lilac with your smile and energy.<br>
+  Wishing you lots of laughter, love, and unforgettable moments on your special day!</p>
+  <div class="from">🎂 From your Grade 12 Lilac Family 💜</div>
+
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5b4d50b74b.mp3?filename=happy-birthday-121888.mp3" type="audio/mpeg">
+  </audio>
+
+  <canvas id="confetti"></canvas>
+
+  <script>
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let pieces = [];
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    class Confetti {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height - canvas.height;
+        this.size = Math.random() * 10 + 5;
+        this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+        this.speed = Math.random() * 3 + 2;
+      }
+      update() {
+        this.y += this.speed;
+        if (this.y > canvas.height) this.y = 0 - this.size;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+    for (let i = 0; i < 200; i++) pieces.push(new Confetti());
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pieces.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
